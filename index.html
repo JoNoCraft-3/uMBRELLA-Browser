@@ -1,119 +1,177 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>uMBRELLA Browser</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap');
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>uMBRELLA Browser</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap');
 
-    * {
-      box-sizing: border-box;
-    }
+  * {
+    box-sizing: border-box;
+  }
 
-    body {
-      margin: 0; padding: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #1a1f36, #3e4c8c);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      color: #f0f0f5;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+  body {
+    margin: 0; padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #1a1f36, #3e4c8c);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #f0f0f5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-    header {
-      font-weight: 600;
-      font-size: 3.2rem;
-      letter-spacing: 0.12em;
-      text-transform: lowercase;
-      margin-bottom: 3rem;
-      user-select: none;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.45);
-    }
+  header {
+    font-weight: 600;
+    font-size: 3.2rem;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    margin-bottom: 3rem;
+    user-select: none;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.45);
+  }
 
-    #search-container {
-      width: 90vw;
-      max-width: 540px;
-      background: rgba(255,255,255,0.12);
-      backdrop-filter: blur(14px);
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-      padding: 1rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: box-shadow 0.3s ease;
-    }
+  form {
+    width: 90vw;
+    max-width: 540px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(14px);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: box-shadow 0.3s ease;
+  }
 
-    #search-container:focus-within {
-      box-shadow: 0 12px 48px rgba(255, 215, 0, 0.8);
-      background: rgba(255,255,255,0.18);
-    }
+  form:focus-within {
+    box-shadow: 0 12px 48px rgba(255, 215, 0, 0.9);
+    background: rgba(255,255,255,0.18);
+  }
 
-    input[type="text"] {
-      flex-grow: 1;
-      border: none;
-      background: transparent;
-      font-size: 1.4rem;
-      color: #f0f0f5;
-      padding: 0.7rem 1rem;
-      border-radius: 12px;
-      outline-offset: 4px;
-      outline-color: #ffd700;
-      font-weight: 400;
-      caret-color: #ffd700;
-      transition: background 0.3s ease;
-    }
+  .input-wrapper {
+    position: relative;
+    flex-grow: 1;
+  }
 
-    input[type="text"]::placeholder {
-      color: #dcdde1aa;
-      font-weight: 300;
-    }
+  input[type="text"] {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 1.4rem;
+    color: #f0f0f5;
+    padding: 1.25rem 1rem 0.5rem 1rem;
+    border-radius: 12px;
+    outline-offset: 4px;
+    outline-color: #ffd700;
+    font-weight: 400;
+    caret-color: #ffd700;
+    transition: background 0.3s ease;
+  }
 
-    button {
-      background: #ffd700;
-      border: none;
-      border-radius: 12px;
-      padding: 0.75rem 1.8rem;
-      font-weight: 600;
-      font-size: 1.2rem;
-      color: #1a1f36;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.6);
-      user-select: none;
-      transition: background-color 0.25s ease, box-shadow 0.25s ease;
-    }
+  input[type="text"]::placeholder {
+    color: transparent;
+  }
 
-    button:hover,
-    button:focus {
-      background: #e6c200;
-      box-shadow: 0 6px 25px rgba(230, 194, 0, 0.9);
-      outline: none;
-    }
+  label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    color: #dcdde1aa;
+    font-weight: 300;
+    font-size: 1.1rem;
+    pointer-events: none;
+    user-select: none;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+  }
 
-    footer {
-      margin-top: auto;
-      padding: 1rem;
-      font-size: 0.85rem;
-      color: #c7c7d9cc;
-      user-select: none;
-    }
-  </style>
+  input[type="text"]:focus + label,
+  input[type="text"]:not(:placeholder-shown) + label {
+    top: 0.3rem;
+    font-size: 0.85rem;
+    color: #ffd700;
+    font-weight: 600;
+    transform: none;
+  }
 
-  <!-- Google CSE Script -->
-  <script async src="https://cse.google.com/cse.js?cx=64bcc7d1caa644f5b"></script>
+  button {
+    background: #ffd700;
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #1a1f36;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.8);
+    user-select: none;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+  }
+
+  button:hover,
+  button:focus {
+    background: #e6c200;
+    box-shadow: 0 8px 30px rgba(230, 194, 0, 1);
+    outline: none;
+  }
+
+  button:active {
+    transform: scale(0.96);
+  }
+
+  footer {
+    margin-top: auto;
+    padding: 1rem;
+    font-size: 0.85rem;
+    color: #c7c7d9cc;
+    user-select: none;
+  }
+</style>
+
+<script async src="https://cse.google.com/cse.js?cx=64bcc7d1caa644f5b"></script>
 </head>
 <body>
   <header>uMBRELLA</header>
 
-  <div id="search-container">
-    <div class="gcse-searchbox-only"></div>
-  </div>
+  <form onsubmit="return executeSearch(event)">
+    <div class="input-wrapper">
+      <input type="text" id="search" name="q" placeholder="Google durchsuchen..." autocomplete="on" required />
+      <label for="search">Google durchsuchen...</label>
+    </div>
+    <button type="submit">Suchen</button>
+  </form>
 
   <footer>Made with ☂️ by Jona</footer>
+
+  <script>
+    // Custom search trigger
+    function executeSearch(event) {
+      event.preventDefault();
+      const query = document.getElementById('search').value.trim();
+      if (!query) return false;
+      // Google CSE globale Suche auslösen
+      if (window.google && google.search && google.search.cse && google.search.cse.element) {
+        const element = google.search.cse.element.getElement('gsearch0');
+        if (element) {
+          element.execute(query);
+          return false;
+        }
+      }
+      // Fallback: Google Suchseite öffnen
+      window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      return false;
+    }
+  </script>
+
+  <!-- Unsichtbares CSE Such-Element (wird per JS getriggert) -->
+  <div style="display:none">
+    <gcse:search></gcse:search>
+  </div>
 </body>
 </html>
