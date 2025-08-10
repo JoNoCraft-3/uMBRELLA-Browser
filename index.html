@@ -1,184 +1,102 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>uMBRELLA Browser</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap');
-
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    margin: 0; padding: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #1a1f36, #3e4c8c);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    color: #f0f0f5;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  header {
-    font-weight: 600;
-    font-size: 3.2rem;
-    letter-spacing: 0.12em;
-    text-transform: lowercase;
-    margin-bottom: 3rem;
-    user-select: none;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.45);
-  }
-
-  form {
-    width: 90vw;
-    max-width: 540px;
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(14px);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-    padding: 1.5rem 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    transition: box-shadow 0.3s ease;
-  }
-
-  form:focus-within {
-    box-shadow: 0 12px 48px rgba(255, 215, 0, 0.9);
-    background: rgba(255,255,255,0.18);
-  }
-
-  .input-wrapper {
-    position: relative;
-    flex-grow: 1;
-  }
-
-  input[type="text"] {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font-size: 1.4rem;
-    color: #f0f0f5;
-    padding: 1.25rem 1rem 0.5rem 1rem;
-    border-radius: 12px;
-    outline-offset: 4px;
-    outline-color: #ffd700;
-    font-weight: 400;
-    caret-color: #ffd700;
-    transition: background 0.3s ease;
-  }
-
-  input[type="text"]::placeholder {
-    color: transparent;
-  }
-
-  label {
-    position: absolute;
-    top: 50%;
-    left: 1rem;
-    color: #dcdde1aa;
-    font-weight: 300;
-    font-size: 1.1rem;
-    pointer-events: none;
-    user-select: none;
-    transform: translateY(-50%);
-    transition: all 0.3s ease;
-  }
-
-  input[type="text"]:focus + label,
-  input[type="text"]:not(:placeholder-shown) + label {
-    top: 0.3rem;
-    font-size: 0.85rem;
-    color: #ffd700;
-    font-weight: 600;
-    transform: none;
-  }
-
-  button {
-    background: #ffd700;
-    border: none;
-    border-radius: 12px;
-    padding: 0.75rem 2rem;
-    font-weight: 600;
-    font-size: 1.2rem;
-    color: #1a1f36;
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.8);
-    user-select: none;
-    transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
-  }
-
-  button:hover,
-  button:focus {
-    background: #e6c200;
-    box-shadow: 0 8px 30px rgba(230, 194, 0, 1);
-    outline: none;
-  }
-
-  button:active {
-    transform: scale(0.96);
-  }
-
-  footer {
-    margin-top: auto;
-    padding: 1rem;
-    font-size: 0.85rem;
-    color: #c7c7d9cc;
-    user-select: none;
-  }
-</style>
-
-<!-- Google CSE Script mit korrekter cx-ID -->
-<script async src="https://cse.google.com/cse.js?cx=64bcc7d1caa644f5b"></script>
-</head>
-<body>
-  <header>uMBRELLA</header>
-
-  <form onsubmit="return executeSearch(event)">
-    <div class="input-wrapper">
-      <input type="text" id="search" name="q" placeholder="Google durchsuchen..." autocomplete="off" required />
-      <label for="search">Google durchsuchen...</label>
-    </div>
-    <button type="submit">Suchen</button>
-  </form>
-
-  <footer>Made with ☂️ by Jona</footer>
-
-  <script>
-    // Custom search trigger
-    function executeSearch(event) {
-      event.preventDefault();
-      const query = document.getElementById('search').value.trim();
-      if (!query) return false;
-
-      if (window.google && google.search && google.search.cse && google.search.cse.element) {
-        // Suche ausführen mit CSE ID
-        let element = google.search.cse.element.getElement('gsearch0');
-        if (!element) {
-          // Erzeuge, falls noch nicht vorhanden
-          google.search.cse.element.render({
-            div: "cse",
-            tag: 'search',
-            attributes: { enableAutoComplete: true }
-          });
-          element = google.search.cse.element.getElement('gsearch0');
-        }
-        element.execute(query);
-        return false;
-      }
-      // Fallback, Google-Suche
-      window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-      return false;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>uMBRELLA Search</title>
+  
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-  </script>
 
-  <!-- Unsichtbares div für die Suchergebnisse -->
-  <div id="cse" style="display:none;"></div>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #4a90e2, #9013fe);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-weight: 900;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      user-select: none;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    }
+
+    p.subtitle {
+      font-weight: 500;
+      font-size: 1.25rem;
+      margin-bottom: 3rem;
+      opacity: 0.8;
+      user-select: none;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    }
+
+    /* Container for search */
+    #search-container {
+      width: 100%;
+      max-width: 600px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    /* Google CSE input styling */
+    input.gsc-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1.1rem;
+      outline-offset: 3px;
+      outline-color: #9013fe;
+      box-shadow: 0 0 6px rgba(144, 19, 254, 0.6);
+    }
+
+    /* Hide Google branding (optional) */
+    .gsc-control-cse {
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      p.subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+      #search-container {
+        padding: 1rem;
+      }
+    }
+  </style>
+
+  <!-- Google CSE Script -->
+  <script async src="https://cse.google.com/cse.js?cx=64bcc7d1caa644f5b"></script>
+</head>
+
+<body>
+  <h1>uMBRELLA Search</h1>
+  <p class="subtitle">Deine Suche, deine Welt.</p>
+
+  <div id="search-container">
+    <gcse:search></gcse:search>
+  </div>
 </body>
 </html>
