@@ -134,6 +134,7 @@
   }
 </style>
 
+<!-- Google CSE Script mit korrekter cx-ID -->
 <script async src="https://cse.google.com/cse.js?cx=64bcc7d1caa644f5b"></script>
 </head>
 <body>
@@ -141,7 +142,7 @@
 
   <form onsubmit="return executeSearch(event)">
     <div class="input-wrapper">
-      <input type="text" id="search" name="q" placeholder="Google durchsuchen..." autocomplete="on" required />
+      <input type="text" id="search" name="q" placeholder="Google durchsuchen..." autocomplete="off" required />
       <label for="search">Google durchsuchen...</label>
     </div>
     <button type="submit">Suchen</button>
@@ -155,23 +156,29 @@
       event.preventDefault();
       const query = document.getElementById('search').value.trim();
       if (!query) return false;
-      // Google CSE globale Suche auslösen
+
       if (window.google && google.search && google.search.cse && google.search.cse.element) {
-        const element = google.search.cse.element.getElement('gsearch0');
-        if (element) {
-          element.execute(query);
-          return false;
+        // Suche ausführen mit CSE ID
+        let element = google.search.cse.element.getElement('gsearch0');
+        if (!element) {
+          // Erzeuge, falls noch nicht vorhanden
+          google.search.cse.element.render({
+            div: "cse",
+            tag: 'search',
+            attributes: { enableAutoComplete: true }
+          });
+          element = google.search.cse.element.getElement('gsearch0');
         }
+        element.execute(query);
+        return false;
       }
-      // Fallback: Google Suchseite öffnen
+      // Fallback, Google-Suche
       window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
       return false;
     }
   </script>
 
-  <!-- Unsichtbares CSE Such-Element (wird per JS getriggert) -->
-  <div style="display:none">
-    <gcse:search></gcse:search>
-  </div>
+  <!-- Unsichtbares div für die Suchergebnisse -->
+  <div id="cse" style="display:none;"></div>
 </body>
 </html>
